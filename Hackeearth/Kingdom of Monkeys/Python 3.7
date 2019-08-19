@@ -1,0 +1,53 @@
+import sys
+
+sys.setrecursionlimit(10000000)
+from collections import defaultdict
+
+def dfs(node,seti):
+    queue = [node]
+    seti.add(node)
+    bool[node-1] = True
+    while queue!=[]:
+        z = queue.pop(0)
+        seti.add(z)
+        for i in hash[z]:
+            
+            if bool[i-1] == False:
+                bool[i-1] = True
+                queue.append(i)
+
+
+
+
+
+t = int(input())
+
+for  _ in range(t):
+    hash = defaultdict(list)
+    n,m = map(int,input().split())
+    bool = [False]*n
+    for i in range(m):
+        a,b = map(int,input().split())
+        hash[a].append(b)
+        hash[b].append(a)
+
+    la = list(map(int,input().split()))
+    ans = set()
+    # print(hash)
+    for i in range(n):
+        seti = set()
+        if bool[i] == False:
+            seti = set()
+            dfs(i+1,seti)
+
+            ans.add(tuple(seti))
+    maxi = 0
+    for i in ans:
+        j = list(i)
+        sumi = 0
+        for k in j:
+            sumi+=la[k-1]
+        maxi = max(maxi,sumi)
+
+    print(maxi)
+
