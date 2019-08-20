@@ -1,0 +1,48 @@
+
+
+from sys import stdin
+from collections import defaultdict
+
+
+def bfs(n):
+    queue = [n]
+    bool[n] = True
+
+    while queue:
+        z = queue.pop(0)
+
+        for i in hash[z]:
+
+            dp[i]+=dp[z]
+            if not bool[i]:
+                bool[i] = True
+                queue.append(i)
+
+
+
+
+
+
+
+
+
+n = int(stdin.readline().strip())
+
+hash = defaultdict(list)
+
+while True:
+    line = stdin.readline().strip().split()
+    if len(line) == 0:
+        continue
+    x, y = list(map(int, line))
+    if (x, y) == (0, 0):
+        break
+    hash[x].append(y)
+
+
+
+dp = [0]*(n+1)
+dp[1] = 1
+bool = [False]*(n+1)
+bfs(1)
+print(dp[n])
