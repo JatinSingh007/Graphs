@@ -1,0 +1,60 @@
+from collections import defaultdict
+
+def dfs(node):
+
+    queue = [node]
+    bool[node] = True
+
+
+    while queue:
+        z = queue.pop()
+        bool[z] = True
+        for i in hash[z]:
+            if bool[i] == False:
+
+                val[i]+= val[z]-2
+                queue.append(i)
+
+
+
+
+
+
+# def dfs(node):
+#     bool[node] = True
+#     # val[node] = len(hash[node])
+#     for i in hash[node]:
+#         if bool[i] == False:
+#             # if i == 3:
+#             #     print(i,val[i],val[node])
+#
+#             val[i]+= val[node]-2
+#             dfs(i)
+
+
+n = int(input())
+
+hash = defaultdict(list)
+
+for i in range(n-1):
+    a,b = map(int,input().split())
+    hash[a].append(b)
+    hash[b].append(a)
+
+q = int(input())
+
+val = defaultdict(int)
+for i in hash:
+    val[i] = len(hash[i])
+
+
+bool = [False]*(n+1)
+dfs(1)
+# print(val)
+
+for i in range(q):
+    z = int(input())
+    print(val[z])
+
+
+
