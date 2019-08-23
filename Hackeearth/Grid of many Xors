@@ -1,0 +1,106 @@
+from sys import stdin
+def find(u):
+
+    while par[u]!=u:
+        par[u] = par[par[u]]
+        u = par[u]
+    return u
+
+def solve():
+    
+    weight = 0
+    for i in edges:
+        w,a,b = i
+        if find(a)!=find(b):
+            weight+=w
+            u = find(a)
+            v = find(b)
+            if size[v]>=size[u]:
+                size[v]+=size[u]
+                par[u] = v
+            else:
+                par[v] = u
+                size[v]+=u
+    
+    return weight
+def make():
+    for i in range(n):
+        for j in range(m):
+            a1,b1 = i+1,j
+            a2,b2 = i-1,j
+            a3,b3 = i,j-1
+            a4,b4 = i,j+1
+
+            if 0<=a1<n and 0<=b1<m:
+                w = l[a1][b1]^l[i][j]
+                hash[ed[(i,j)]].append((ed[(a1,b1)],w))
+                a,b = sorted([ed[(i,j)],ed[(a1,b1)]])
+                edges.add((w,a,b))
+
+
+
+
+            if 0<=a2<n and 0<=b2<m:
+                w = l[a2][b2]^l[i][j]
+                hash[ed[(i,j)]].append((ed[(a2,b2)],w))
+                a,b = sorted([ed[(i,j)],ed[(a2,b2)]])
+                edges.add((w,a,b))
+
+
+
+            if 0<=a3<n and 0<=b3<m:
+                w = l[a3][b3]^l[i][j]
+                hash[ed[(i,j)]].append((ed[(a3,b3)],w))
+                a,b = sorted([ed[(i,j)],ed[(a3,b3)]])
+                edges.add((w,a,b))
+
+
+            if 0<=a4<n and 0<=b4<m:
+                w = l[a4][b4]^l[i][j]
+                hash[ed[(i,j)]].append((ed[(a4,b4)],w))
+                a,b = sorted([ed[(i,j)],ed[(a4,b4)]])
+                edges.add((w,a,b))
+def make2():
+    k = 1
+    for i in range(n):
+        for j in range(m):
+            ed[(i,j)] = k
+            k+=1
+def make3():
+     par = [0]+[i+1 for i in range(n*m)]
+     size = [0]+[i+1 for i in range(n*m)]
+from collections import defaultdict
+
+
+t = int(input())
+
+for _ in range(t):
+
+    n, m = list(map(int, stdin.readline().strip().split()))
+    r1, c1, r2, c2 = list(map(int, stdin.readline().strip().split()))
+    r1-=1
+    c1-=1
+    r2-=1
+    c2-=1
+    l = []
+    for i in range(n):
+        k = list(map(int, stdin.readline().strip().split()))
+        l.append(k)
+
+    hash = defaultdict(list)
+    vis = defaultdict(bool)
+    edges = set()
+    ed = defaultdict(int)
+    
+   
+    make2()
+    make()
+    
+
+    par = [0]+[i+1 for i in range(n*m)]
+    size = [0]+[i+1 for i in range(n*m)]
+    edges = sorted(list(edges))
+    weight = 0
+    z = solve()
+    print(z)
+
