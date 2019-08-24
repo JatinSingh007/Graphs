@@ -1,0 +1,28 @@
+
+
+def checkbi(hash,node):
+
+    queue = [node]
+    s1 = {node}
+    s2 = set()
+
+    while queue!=[]:
+        z = queue.pop(-1)
+
+        if z in s1:
+            yo = 1
+        else:
+            yo = 0
+        for i in hash[z]:
+            if i not in s1 and i not in s2:
+                if yo == 1:
+                    s2.add(i)
+
+                else:
+                    s1.add(i)
+                queue.append(i)
+            elif (i in s1 and yo == 1) or (i in s2 and yo == 0):
+                return False
+
+
+    return True
