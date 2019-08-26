@@ -1,0 +1,89 @@
+
+
+def bfs(node):
+
+    queue = [node]
+
+    boo[node] = True
+    seti = set()
+    temp = node
+    while queue:
+        z = queue.pop(0)
+        a,b = z
+        seti.add((a,b))
+        if a-1>=0:
+            if l[a-1][b] == '.':
+              if boo[(a-1,b)] == False:
+                boo[(a-1,b)] = True
+                queue.append((a-1,b))
+        if b-1>=0:
+            if l[a][b-1] == '.':
+              if boo[(a,b-1)] == False:
+                boo[(a,b-1)] = True
+                queue.append((a,b-1))
+        if a+1<n:
+            if l[a+1][b] == '.':
+              if boo[(a+1,b)] == False:
+                boo[(a+1,b)] = True
+                queue.append((a+1,b))
+        if b+1<n:
+            if l[a][b+1] == '.':
+             if boo[(a,b+1)] == False:
+                boo[(a,b+1)] = True
+                queue.append((a,b+1))
+
+    for i in seti:
+        count[i] = len(seti)
+        par[i] = temp
+
+
+
+
+from collections import defaultdict
+count = defaultdict(int)
+
+n = int(input())
+par = defaultdict(int)
+l = []
+ka = []
+for i in range(n):
+
+    k = list(input())
+    l.append(k)
+
+boo = defaultdict(bool)
+
+
+
+for i in range(n):
+    for j in range(n):
+        if l[i][j] == '.' and boo[(i,j)] == False:
+            bfs((i,j))
+        elif l[i][j] == '*':
+            ka.append((i,j))
+
+ans = 0
+for a,b in ka:
+    seti = set()
+    if a-1>=0:
+        if l[a-1][b] == '.':
+            seti.add(par[(a-1,b)])
+
+
+    if b-1>=0:
+        if l[a][b-1] == '.':
+            seti.add(par[(a,b-1)])
+    if a+1<n:
+        if l[a+1][b] == '.':
+            seti.add(par[(a+1,b)])
+
+    if b+1<n:
+        if l[a][b+1] == '.':
+            seti.add(par[(a,b+1)])
+    # print(seti)
+    for i in seti:
+        ans+=count[i]
+    ans+=1
+
+
+print(ans)
