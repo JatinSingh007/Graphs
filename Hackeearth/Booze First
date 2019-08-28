@@ -1,0 +1,57 @@
+import heapq
+
+
+from collections import defaultdict
+
+
+hash = defaultdict(list)
+
+n,m = map(int,input().split())
+
+for i in range(m):
+
+    u,v,w = map(int,input().split())
+
+    hash[u].append([v,w])
+    hash[v].append([u,w])
+b = int(input())
+bo = [int(x) for x in input().split()]
+
+
+
+
+
+distances = [10**18]*(n+1)
+
+vis = [0]*(n+1)
+
+for i in bo:
+    distances[i] = 0
+
+hea = [[0,bo[0]]]
+bool = [False]*(n+1)
+
+while hea:
+    w,e = heapq.heappop(hea)
+
+    if bool[e]:
+        continue
+    bool[e] = True
+
+    for i in hash[e]:
+        w1 =  i[1]
+        e1 =  i[0]
+        if distances[e1]  >= distances[e] + w1:
+            distances[e1] = distances[e] + w1
+
+        if bool[e1] == False:
+          heapq.heappush(hea,[distances[e1],e1])
+
+    
+
+
+
+
+
+for i in distances[1:]:
+    print(i)
