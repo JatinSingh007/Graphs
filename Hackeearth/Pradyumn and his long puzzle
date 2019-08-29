@@ -1,0 +1,69 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define MAX 10000000000
+int n, m;
+int xs, ys, xt, yt;
+struct cell{
+    int cost;
+    int x;
+    int y;
+    /*bool operator<(const cell &t) const {
+        return this->cost < t.cost;
+    }*/
+    cell(int c, int x, int y) : cost(c), x(x), y(y) {}
+};
+bool operator<(const cell &l, const cell &r) {
+    return l.cost < r.cost;
+}
+ 
+int dx[4] = {1, -1, 0, 0};
+int dy[4] = {0, 0, 1, -1};
+ 
+void dijkstra(vector<string> &a, vector<vector<int> > &dist, vector<vector<int> > &vis) {
+    multiset <cell> st;
+    st.insert({0, xs, ys});
+    
+    while(!st.empty()) {
+        cell curr = *st.begin();
+        st.erase(st.begin());
+        
+        int x = curr.x;
+        int y = curr.y;
+        
+        if(x == xt && y == yt) return;
+        
+        if(vis[x][y]) continue;
+        vis[x][y] = 1;
+        
+        for(int k = 0; k < 4; k++) {
+            int i = x + dx[k];
+            int j = y + dy[k];
+            if(i < 0 || j < 0 || i >= n || j >= m) continue;
+            
+            if(dist[i][j] > dist[x][y] + abs(a[i][j] - a[x][y])) {
+                dist[i][j] = dist[x][y] + abs(a[i][j] - a[x][y]);
+                st.insert({dist[i][j], i, j});
+            }
+        }
+    }
+}
+ 
+int main() {
+    cin >> n >> m;
+    vector<string> a (n);
+    vector<vector<int> > dist (n, vector<int>(m+1, MAX));
+    vector<vector<int> > vis (n, vector<int>(m+1, 0));
+    for(int i = 0; i < n; i++)
+        cin >> a[i];
+    cin >> xs >> ys >> xt >> yt;
+    xs--, ys--, xt--, yt--;
+    
+    for(int i = 0; i < n; i++)
+        for(int j = 0; j < m; j++)
+            dist[i][j] = MAX;
+    dist[xs][ys] = 0;
+    dijkstra(a, dist, vis);
+    int ans = dist[xt][yt];
+    cout << ans;
+    return 0;
+}
