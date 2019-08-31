@@ -1,0 +1,63 @@
+
+
+
+
+
+
+
+def bfs(val,node):
+
+    queue = [node]
+    bool[node] = True
+
+    maxi = -10
+
+    while queue:
+        z = queue.pop(0)
+
+        for i in hash[z]:
+            if bool[i] == False:
+                bool[i] = True
+                maxi = max(maxi,l[i-1]-val)
+                queue.append(i)
+
+    return maxi
+
+
+
+
+
+
+
+
+
+
+from collections import defaultdict
+
+
+
+t = int(input())
+
+for _ in range(t):
+
+    n,m = map(int,input().split())
+
+    l = list(map(int,input().split()))
+
+    hash = defaultdict(list)
+
+    for i in range(m):
+        a,b = map(int,input().split())
+        hash[a].append(b)
+
+    bool = [False]*(n+1)
+    la = [ [i,j+1] for j,i in enumerate(l)]
+    la.sort()
+    maxi = -10
+    for i,j in la:
+        if bool[j] == False:
+           z =  bfs(i,j)
+           maxi = max(maxi,z)
+
+    print(maxi)
+
