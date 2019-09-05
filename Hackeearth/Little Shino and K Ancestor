@@ -1,0 +1,48 @@
+import sys
+sys.setrecursionlimit(1000001)
+
+from collections import defaultdict
+
+n,k = map(int,input().split())
+
+
+def dfs(n):
+
+    bool[n] = True
+    if len(color[l[n-1]])>=k:
+        ans[n] = color[l[n-1]][-k]
+
+    color[l[n-1]].append(n)
+
+
+
+    for i in hash[n]:
+        if not bool[i]:
+
+            dfs(i)
+    color[l[n-1]].pop()
+
+
+
+l = list(map(int,input().split()))
+
+hash = []
+for i in range(n+1): hash.append([])
+
+for i in range(n-1):
+    a,b = map(int,input().split())
+
+    hash[a].append(b)
+    hash[b].append(a)
+
+
+
+
+bool = [False]*(n+1)
+color = defaultdict(list)
+ans = [-1]*(n+1)
+dfs(1)
+
+# ans = [0]*(n+1)
+
+print(" ".join(map(str,ans[1:])))
