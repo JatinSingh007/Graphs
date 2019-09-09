@@ -1,0 +1,74 @@
+
+
+
+
+
+n,m = map(int,input().split())
+
+c = [0]*(m)
+item = []
+for i in range(m):
+
+    la = list(map(int,input().split()))
+    c[i] = la[-1]
+    item.append(la)
+
+mask = [0 for i in range(m)]
+
+for i in range(m):
+    for j in range(n):
+        mask[i] = mask[i] + (item[i][j]<<j)
+
+
+
+all = (1<<n) - 1
+
+if m>21:
+
+    dp = [-1 for i in range(1<<n)]
+    dp[0] = 0
+
+    for i in range(m):
+        for j in reversed(range(0,1<<n)):
+            if dp[j] != -1:
+
+                nex = j|mask[i]
+                cost = dp[j]+c[i]
+
+                if dp[nex] == -1 or dp[nex]>cost:
+                    dp[nex] = cost
+
+
+    if dp[all] == -1:
+        exit(1)
+    else:
+
+        print(dp[(1<< n) - 1])
+
+else:
+
+
+    ans = -1
+
+    for i in range(1<<m):
+        rng = 0
+        total = 0
+        for j in range(m):
+            if (i>>j) & 1:
+                rng = rng|mask[j]
+                total+=c[j]
+
+        if rng == all:
+
+            if ans == -1 or ans>total:
+                ans = total
+
+
+
+    if ans == -1:
+        exit(1)
+    else:
+        print(ans)
+
+
+
