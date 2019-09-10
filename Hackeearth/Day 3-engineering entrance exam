@@ -1,0 +1,66 @@
+import heapq
+
+
+
+def dijsk(n):
+
+
+    distances[0] = 0
+    hea = [[0,n]]
+
+    while len(hea)>0:
+
+        a,b = heapq.heappop(hea)
+
+        if bool[b]:
+            continue
+
+        bool[b] = True
+
+        for c,w in hash[b]:
+
+             distances[c] = min(distances[c],distances[b]+w)
+             heapq.heappush(hea,[distances[c],c])
+
+
+
+
+from collections import defaultdict
+
+n,m,k,q = map(int,input().split())
+
+hash = defaultdict(list)
+
+
+for i in range(m):
+
+    a,b,c = map(int,input().split())
+
+    hash[a].append([b,c])
+
+    hash[b].append([a,c])
+
+l = list(map(int,input().split()))
+
+
+
+
+
+bool = [False]*(n+1)
+
+
+distances = [10**18]*(n+1)
+
+for i in l:
+
+    hash[0].append([i,0])
+    hash[i].append([0,0])
+
+dijsk(0)
+for i in range(q):
+
+    print(distances[(int(input()))])
+
+
+
+
