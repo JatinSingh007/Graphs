@@ -1,0 +1,81 @@
+
+import heapq
+
+
+inf = 10**9
+
+def dijsk(y):
+
+    # bool = [False]*(n+1)
+    # distances[0] = 0
+    distances = [inf]*(n+1)
+    distances[y] = 0
+    hea = [[0,y]]
+    while len(hea)>0:
+
+        a,b = heapq.heappop(hea)
+
+        if a>distances[b]:
+            continue
+
+       
+
+        for c,w in hash[b]:
+
+            if distances[b]+w<distances[c]:
+               distances[c] = min(distances[c],distances[b]+w)
+
+               heapq.heappush(hea,(distances[c],c))
+
+
+
+
+
+
+
+    return distances
+
+
+
+
+
+from collections import defaultdict
+
+n,m,k,x = map(int,input().split())
+
+l = list(map(int,input().split()))
+
+hash = [[] for i in range(n+1)]
+
+for i in range(m):
+    a,b,w = map(int,input().split())
+
+    hash[a].append((b,w))
+    hash[b].append((a,w))
+
+a,b = map(int,input().split())
+
+
+
+
+
+
+distances1 = dijsk(a)
+distances2 = dijsk(b)
+
+mini = 10**9
+
+# print(distances2)
+
+for i in l:
+
+    if distances2[i]<=x and distances1[i]!=10**18:
+        z = distances2[i] + distances1[i]
+        mini =  min(z,mini)
+if mini>=10**9:
+    print(-1)
+    exit()
+print(mini)
+
+
+
