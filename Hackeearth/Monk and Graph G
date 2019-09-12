@@ -1,0 +1,82 @@
+ 
+ 
+def bfs(a,b):
+ 
+    bool[a] = True
+ 
+    queue = [a]
+    level = defaultdict(int)
+    level[a] = 0
+    while queue:
+        z = queue.pop(0)
+ 
+        for i in hash[z]:
+ 
+            if not bool[i]:
+                bool[i] = True
+                queue.append(i)
+                level[i] = level[z]+1
+                if i == b:
+                    break
+ 
+    return level
+ 
+ 
+from collections import defaultdict
+ 
+n,m = map(int,input().split())
+ 
+hash = defaultdict(list)
+ 
+for i in range(m):
+    a,b = map(int,input().split())
+    hash[a].append(b)
+    hash[b].append(a)
+ 
+a,b = map(int,input().split())
+ 
+ 
+bool = [False]*(n+1)
+z = bfs(a,b)
+ 
+if bool[b] == False:
+    print(-1)
+ 
+else:
+    ans = []
+    bool = [False]*(n+1)
+    stack = [b]
+    bool[b] = True
+ 
+ 
+ 
+    while stack!=[]:
+          c = stack.pop(0)
+ 
+ 
+          for j in hash[c]:
+ 
+              if z[j] == z[c]-1 and bool[j]==False:
+                  bool[j] = True
+                  stack.append(j)
+ 
+ 
+ 
+ 
+ 
+          if len(stack) == 1:
+            if stack[0] == a:
+                break
+            ans.append(stack[0])
+ 
+ 
+    if ans == []:
+        print(-1)
+    else:
+        ans.sort()
+        print(ans[0])
+ 
+ 
+ 
+ 
+ 
