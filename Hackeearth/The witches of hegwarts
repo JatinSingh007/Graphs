@@ -1,0 +1,49 @@
+from collections import defaultdict
+
+
+def bfs(n):
+    bo = defaultdict(bool)
+    bo[n] = True
+    queue = [n]
+    ans = 0
+    level = defaultdict(int)
+    while queue!=[]:
+
+        z = queue.pop(0)
+        if z == 1:
+            return level[1]
+
+        if z%2 == 0 and bo[z//2] == False:
+            queue.append(z//2)
+            level[z//2] = level[z]+1
+            bo[z//2] = True
+
+        if z%3 == 0 and bo[z//3] == False:
+            queue.append(z//3)
+            level[z//3] = level[z]+1
+            bo[z//3] = True
+
+
+        if bo[z-1] == False:
+
+
+         queue.append(z-1)
+         level[z-1] = level[z]+1
+         bo[z-1] = True
+
+
+
+
+
+
+
+t = int(input())
+
+for i in range(t):
+
+    n = int(input())
+    hash = defaultdict(list)
+    print(bfs(n))
+
+
+
