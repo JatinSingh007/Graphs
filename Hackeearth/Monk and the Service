@@ -1,0 +1,48 @@
+def dfs(n):
+    pass
+
+from collections import defaultdict
+t = int(input())
+
+for _ in range(t):
+    n,m = map(int,input().split())
+    hash = defaultdict(list)
+    vis = [False]*(n+1)
+    l = []
+    for i in range(n):
+        k = [10**18]*n
+        l.append(k)
+        # l[i][i] = 0
+
+    for i in range(m):
+
+        a,b,c = map(int,input().split())
+        l[a-1][b-1] = min(l[a-1][b-1],c)
+        l[b-1][a-1] = min(l[b-1][a-1],c)
+
+
+    for k in range(n):
+        for i in range(n):
+            for j in range(n):
+                l[i][j] = min(l[i][k] + l[k][j],l[i][j])
+                # l[j][i] = min(l[j][k] + l[k][i],l[j][i])
+
+    # print(l)
+    s,a,h = map(int,input().split())
+    ha = [s,a,h]
+    st = s-1
+    yo = []
+    for i in range(1,n+1):
+        if i not in ha:
+            yo.append(i-1)
+
+    ans = 0
+    maxi = 0
+    for i in yo:
+        maxi = max(maxi,l[st][i]+2*l[i][a-1]+l[i][h-1])
+    print(maxi)
+
+
+
+
+
