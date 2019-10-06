@@ -1,0 +1,52 @@
+def find_parent(u):
+    if par[u]!=u:
+        par[u]=find_parent(par[u])
+    return par[u]
+ 
+ 
+import sys
+sys.setrecursionlimit(1000000)
+ 
+n = int(input())
+ 
+la = [[i+1] for i in range(n)]
+ 
+def union(a,b):
+    z1,z2 = find_parent(a),find_parent(b)
+    if z1!=z2:
+        if len(la[z1-1])>len(la[z2-1]):
+            z1,z2 = z2,z1
+ 
+ 
+        for i in la[z1-1]:
+            la[z2-1].append(i)
+ 
+ 
+        par[z1] = z2
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+from collections import defaultdict
+ 
+ 
+ 
+hash = defaultdict(list)
+ 
+par = [0]+[i+1 for i in range(n)]
+bool = [False]*(n+1)
+ 
+ 
+for i in range(n-1):
+    a,b = map(int,input().split())
+    union(a,b)
+z = find_parent(1)
+for i in la[z-1]:
+    print(i,end= ' ')
+ 
