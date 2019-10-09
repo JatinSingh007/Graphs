@@ -1,0 +1,33 @@
+from collections import defaultdict
+n,q = map(int,input().split())
+
+
+def find_parent(u):
+    if par[u]!=u:
+        par[u]=find_parent(par[u])
+    return par[u]
+
+
+
+par = [0]+[i+1 for i in range(n)]
+
+# hash = [set() for i in range(n+1)]
+for i in range(q):
+    l = list(map(int,input().split()))
+    if len(l) == 3:
+        a,b,c = l
+        z1 = find_parent(b)
+        z2 = find_parent(c)
+        if z1!=z2:
+
+          par[z1] = z2
+    else:
+        a,b = l
+        if a == 2:
+            z1 = find_parent(b)
+            par[b] = b
+            par[z1] = b
+
+        else:
+            print(find_parent(b))
+
