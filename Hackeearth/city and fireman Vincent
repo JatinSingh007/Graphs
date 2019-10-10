@@ -1,0 +1,45 @@
+from collections import defaultdict
+from math import inf
+def find_parent(u):
+    if par[u]!=u:
+        par[u]=find_parent(par[u])
+    return par[u]
+n = int(input())
+
+par = [0]+[i+1 for i in range(n)]
+
+l = list(map(int,input().split()))
+
+hash = defaultdict(set)
+
+k = int(input())
+
+prd = 1
+
+for j,i in enumerate(l):
+    hash[i].add(j+1)
+
+for i in range(k):
+    a,b = map(int,input().split())
+    z1,z2 = find_parent(a),find_parent(b)
+    if l[z2-1]>l[z1-1]:
+        z1,z2 = z2,z1
+
+    par[z1] = z2
+mod = 10**9 + 7
+seti = set()
+yo = defaultdict(int)
+for i in range(1,n+1):
+    z = find_parent(i)
+    count = 0
+    if l[z-1] == l[i-1]:
+        yo[z]+=1
+
+for i in yo:
+    prd = prd%mod*yo[i]%mod
+    prd = prd%mod
+
+
+
+
+print(prd)
