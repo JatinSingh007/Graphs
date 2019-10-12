@@ -1,0 +1,90 @@
+#include <iostream>
+#include <vector>
+#include <iterator>
+#include <algorithm>
+#include <string>
+#include <cmath>
+#include <map>
+#include <set>
+#include <queue>
+#include <stack>
+#include <sstream>
+#include <fstream>
+#include <cstdlib>
+ 
+#define gc getchar_unlocked
+ 
+using namespace std;
+ 
+typedef long long        ll;
+typedef pair<int, int>   pii;
+typedef pair<int, pii>   piii;
+typedef vector<int>      vi;
+typedef vector<pii>      vii;
+typedef vector<piii>     viii;
+typedef set<int>         si;
+typedef multiset<int>    msi;
+typedef multiset<pii>    msii;
+typedef map<int,int>     mii;
+ 
+ 
+#define rep(i,n)     for (int (i)=0; (i)<(n); (i)++)
+#define repn(i,n)    for (int (i)=1; (i)<=(n); (i)++)
+#define repd(i,n)    for (int (i)=(n)-1; (i)>=0; (i)--)
+#define foreach(i,X) for(__typeof((X).begin()) i = (X).begin(); i != (X).end(); i++)
+#define all(a)       a.begin(),a.end()
+#define ms0(ar)      memset(ar,0,sizeof ar)
+#define ms1(ar)      memset(ar,-1,sizeof ar)
+ 
+const int inf = numeric_limits<int>::max();
+const ll linf = numeric_limits<ll>::max();
+ 
+#define fi           first
+#define se           second
+#define pb           push_back
+#define mp           make_pair
+ 
+ 
+struct classcomp{
+    bool operator()(const pii &a, const pii &b) const {
+        if(a.fi == b.fi) {
+            return a.se < b.se;
+        }
+        return a.fi > b.fi;
+    }
+};
+ 
+vi g[100001];
+int deg[100001];
+ 
+int main()
+{
+    int n, m; cin>>n>>m;
+    rep(i, m) {
+        int a, b; cin>>a>>b;
+        g[a].pb(b);
+        g[b].pb(a);
+        deg[a]++; deg[b]++;
+    }
+    set<pii, classcomp > s;
+    repn(i, n) {
+        if(deg[i]) s.insert(mp(deg[i], i));
+    }
+    int ans = 0;
+    while(!s.empty()) {
+        pii p = *s.begin();
+        s.erase(s.begin());
+        deg[p.se] = 0;
+        foreach(it, g[p.se]) {
+            if(deg[*it] != 0) {
+                s.erase(mp(deg[*it], *it));
+                deg[*it]--;
+                if(deg[*it]) s.insert(mp(deg[*it], *it));
+            }
+        }
+        ans++;
+    }
+    cout<<ans<<endl;
+ 
+    return 0;
+}
