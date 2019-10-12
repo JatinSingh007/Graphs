@@ -1,0 +1,91 @@
+import sys
+
+sys.setrecursionlimit(10**9)
+
+from collections import defaultdict
+
+#
+# def dfs(n):
+#     stack = [n]
+#     while stack:
+#         u = stack[-1]
+#         # if instack[u] == 1:
+#         #     dp[u] = len(la) - when[u]
+#         #     stack.pop()
+#         #     continue
+#         la.append(u)
+#         when[u] = len(la) - 1
+#         instack[u] = 1
+#         for i in reversed(hash[u]):
+#             stack.append(i)
+
+def dfs(n):
+    stack = [n]
+    bool[n] = True
+
+
+    while stack:
+
+         z = stack.pop()
+
+         for i in hash[z]:
+             if not bool[i]:
+                 bool[i] = True
+                 stack.append(i)
+
+
+
+def find_parent(u):
+    if par[u]!=u:
+        par[u]=find_parent(par[u])
+    return par[u]
+
+
+
+
+t = int(input())
+
+for _ in range(t):
+
+    hash = defaultdict(list)
+    n,m = map(int,input().split())
+
+    par = [0]+[i+1 for i in range(n)]
+    rank = [1]*(n+1)
+    l = []
+    for i in range(m):
+        a,b = map(int,input().split())
+        l.append([abs(a-b),a,b])
+        hash[a].append(b)
+        hash[b].append(a)
+
+    l.sort(reverse = True)
+    ans = 0
+    cnt = 0
+
+    bool = [False]*(n+1)
+
+    for i in range(1,n+1):
+        if bool[i] == False:
+            dfs(i)
+            cnt+=1
+
+    for c,a,b in l:
+        z1,z2 = find_parent(a),find_parent(b)
+        if par[z1]!=par[z2]:
+
+            if rank[z1]>rank[z2]:
+                z2,z1 = z1,z2
+
+
+            rank[z2]+=rank[z1]
+            par[z1] = z2
+        else:
+            ans+=c
+
+    print(ans+cnt-1)
+
+
+
+
+
