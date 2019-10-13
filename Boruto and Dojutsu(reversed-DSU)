@@ -1,0 +1,66 @@
+from bisect import bisect
+from collections import defaultdict
+# l = list(map(int,input().split()))
+# map(int,input().split()))
+# from math import gcd,sqrt,ceil
+from collections import Counter
+import sys
+sys.setrecursionlimit(10**9)
+def find_parent(u):
+    if par[u]!=u:
+        par[u]=find_parent(par[u])
+    return par[u]
+
+
+
+n,m,q = map(int,raw_input().split())
+colr = list(map(int,raw_input().split()))
+my_colr = [{i} for i in colr]
+par = [0]+[i+1 for i in range(n)]
+rank = [1]*(n+1)
+la = []
+for i in range(m):
+    a,b = map(int,raw_input().split())
+    la.append([a,b])
+ba = []
+query = []
+bool = defaultdict(bool)
+for i in range(q):
+    a,b = map(int,raw_input().split())
+    if a == 1:
+        ba.append([a,b])
+        c,d = la[b-1]
+        bool[(c,d)] = True
+    query.append([a,b])
+
+
+for a,b in la:
+    if bool[(a,b)] == False:
+        z1,z2 = find_parent(a),find_parent(b)
+        if rank[z1]>rank[z2]:
+            z1,z2 = z2,z1
+        for j in my_colr[z1-1]:
+            my_colr[z2-1].add(j)
+
+        par[z1] = z2
+        rank[z2]+=rank[z1]
+yo = []
+
+for a,b in reversed(query):
+    if a == 1:
+        a,b = la[b-1][0],la[b-1][1]
+        z1,z2 = find_parent(a),find_parent(b)
+        if rank[z1]>rank[z2]:
+            z1,z2 = z2,z1
+        for j in my_colr[z1-1]:
+            my_colr[z2-1].add(j)
+        par[z1] = z2
+        rank[z2]+=rank[z1]
+    else:
+        z1 = find_parent(b)
+        yo.append(len(my_colr[z1-1]))
+
+yo.reverse()
+
+for i in yo:
+    print(i)
