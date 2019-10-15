@@ -1,0 +1,61 @@
+# hume yaha nikalna hai longest reachable node from every node for this we will use dfs
+# def dfs(v,p):
+#     visited[v] = 1
+#     longest_down[v] = 0
+#
+#     for i in hash[v]:
+#         if not visited[i]:
+#             if i == p:
+#                 continue
+#             par[i] = v
+#             dfs(i,v)
+#             longest_down[v] = max(longest_down[v],longest_down[i]+1)
+
+
+N=int(raw_input())
+edg=[set([]) for _ in xrange(N)]
+for i in xrange(N-1):
+  a,b=map(int, raw_input().split())
+  a,b=a-1,b-1
+  edg[a].add(b)
+  edg[b].add(a)
+par=[-1]*N
+lev=[-1]*N
+lev[0]=0
+lst=[0]
+idx=0
+gr=[len(edg[i]) for i in xrange(N)]
+while idx<N:
+  u=lst[idx]
+  idx+=1
+  for v in edg[u]:
+    par[v]=u
+    edg[v].remove(u)
+    lst.append(v)
+    lev[v]=lev[u]+1
+mxl=[0]*N
+while lst:
+  u=lst.pop()
+  mx=0
+  for v in edg[u]:
+    mx=max(mx,mxl[v]+1)
+  mxl[u]=mx    
+res=-1
+for i in xrange(N):
+  if gr[i]>=5:
+    # check base len
+    u=i
+    mx=mxl[u]
+    dis=1
+    while par[u]!=-1:
+      dis+=1
+      for v in edg[par[u]]:
+        if v!=u:
+          mx=max(mx,mxl[v]+dis) 
+      u=par[u]      
+    if mx+gr[i]>res:
+      res=mx+gr[i]
+      resc=i
+print res,
+if res!=-1:
+  print resc+1
