@@ -1,0 +1,40 @@
+from bisect import bisect
+from collections import defaultdict
+# l = list(map(int,input().split()))
+# map(int,input().split()))
+from math import gcd,sqrt,ceil,inf
+from collections import Counter
+import sys
+sys.setrecursionlimit(1000000)
+def find_parent(u):
+    if par[u]!=u:
+        par[u]=find_parent(par[u])
+    return par[u]
+
+seti = set()
+
+
+n,m = map(int,input().split())
+rank = [1]*(n+1)
+par = [0]+[i+1 for i in range(n)]
+ans = [0]*(n+1)
+for i in range(m):
+    a,b = map(int,input().split())
+    z1,z2 = find_parent(a),find_parent(b)
+    if z1!=z2:
+        if rank[z1]>rank[z2]:
+            z1,z2 = z2,z1
+        par[z1] = z2
+        rank[z2]+=rank[z1]
+for i in range(1,n+1):
+    ans[find_parent(i)]+=1
+mod = 10**9 + 7
+pr = 1
+
+for i in ans:
+ if i!=0:
+    pr = pr%mod * i%mod
+    pr = pr%mod
+
+print(pr)
+
