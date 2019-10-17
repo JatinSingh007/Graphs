@@ -1,0 +1,80 @@
+from bisect import bisect
+from collections import defaultdict
+# l = list(map(int,input().split()))
+# map(int,input().split()))
+from math import gcd,sqrt,ceil,inf
+from collections import Counter
+import sys
+sys.setrecursionlimit(1000000)
+
+def find_parent(u):
+    while par[u]!=u:
+        u = par[u]
+    return par[u]
+
+
+
+
+
+
+x,y = map(int,input().split())
+pari = [set() for i in range(x+y+1)]
+
+par = [0]+[i+1 for i in range(x+y)]
+q1 = int(input())
+rank = [0]*(x+y+1)
+for i in range(q1):
+    a,b = map(int,input().split())
+
+    z1,z2 = find_parent(a),find_parent(b)
+    if rank[z1]>rank[z2]:
+        z1,z2 = z2,z1
+    par[z1] = z2
+    rank[z2]+=rank[z1]
+q2 = int(input())
+for i in range(q2):
+    a,b = map(int,input().split())
+    a+=x
+    b+=x
+    z1,z2 = find_parent(a),find_parent(b)
+    if rank[z1]>rank[z2]:
+        z1,z2 = z2,z1
+    par[z1] = z2
+    rank[z2]+=rank[z1]
+
+q3 = int(input())
+
+
+for i in range(q3):
+    a,b = map(int,input().split())
+    b+=x
+    z1,z2 = find_parent(a),find_parent(b)
+    if rank[z1]>rank[z2]:
+        z1,z2 = z2,z1
+
+    par[z1] = z2
+    rank[z2]+=rank[z1]
+
+
+for i in range(1,x+y+1):
+
+    z = find_parent(i)
+
+    pari[z].add(i)
+
+pro = 1
+ans = 0
+
+for i in pari:
+    count1 = 0
+    count2 = 0
+    for j in i:
+        if 1<=j<=x:
+            count1+=1
+        else:
+            count2+=1
+
+    ans+=count1*(y-count2)
+
+
+print(ans)
