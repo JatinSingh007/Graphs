@@ -1,0 +1,94 @@
+from bisect import bisect
+from collections import defaultdict
+# l = list(map(int,input().split()))
+# map(int,input().split()))
+from math import gcd,sqrt,ceil,inf
+from collections import Counter
+import sys
+sys.setrecursionlimit(1000000)
+from bisect import bisect
+from collections import defaultdict
+# l = list(map(int,input().split()))
+# map(int,input().split()))
+from math import gcd,sqrt,ceil,inf
+from collections import Counter
+import sys
+sys.setrecursionlimit(10**9)
+n,m = map(int,input().split())
+
+level = defaultdict(lambda : inf)
+
+def bfs(node):
+
+    queue = [node]
+
+    boo[node] = True
+    # seti = set()
+    # temp = node
+    # level = defaultdict(lambda : inf)
+    level[(node)] = 0
+    while queue:
+        z = queue.pop(0)
+        a,b = z
+        # seti.add((a,b))
+        if a-1>=0:
+            if l[a-1][b] == 0:
+                if boo[(a-1,b)] == False:
+                    boo[(a-1,b)] = True
+                    queue.append((a-1,b))
+                    level[(a-1,b)] = level[(a,b)] + 1
+        if b-1>=0:
+            if l[a][b-1] == 0:
+                if boo[(a,b-1)] == False:
+                    boo[(a,b-1)] = True
+                    queue.append((a,b-1))
+                    level[(a,b-1)] = level[(a,b)] + 1
+        if a+1<n:
+            if l[a+1][b] == 0:
+                if boo[(a+1,b)] == False:
+                    boo[(a+1,b)] = True
+                    queue.append((a+1,b))
+                    level[(a+1,b)] = level[(a,b)] + 1
+        if b+1<n:
+            if l[a][b+1] == 0:
+                if boo[(a,b+1)] == False:
+                    boo[(a,b+1)] = True
+                    queue.append((a,b+1))
+                    level[(a,b+1)] = level[(a,b)] + 1
+
+l = []
+for i in range(n):
+    ka = list(map(int,input().split()))
+    l.append(ka)
+
+x,y = -1,-1
+
+for i in range(n):
+    for j in range(n):
+        if l[i][j] == 2:
+            x,y = i,j
+            break
+
+boo = defaultdict(bool)
+bfs((x,y))
+mini = inf
+ba1 = [(0,0),(n-1,0)]
+ba2 = [(0,0),(0,m-1)]
+
+for a,b in ba1:
+
+    while b<m:
+        mini = min(level[(a,b)],mini)
+        b+=1
+
+for a,b in ba2:
+
+    while a<n:
+        mini = min(level[(a,b)],mini)
+        a+=1
+
+
+if mini == inf:
+    print(-1)
+    exit()
+print(mini)
