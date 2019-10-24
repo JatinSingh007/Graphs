@@ -1,0 +1,83 @@
+from collections import defaultdict
+from math import sqrt,factorial,gcd,log2
+# map(int,input().split())
+# l = list(map(int,input().split()))
+import sys
+sys.setrecursionlimit(10**9)
+def dfs(n):
+    stack = [n]
+    while stack:
+        u = stack[-1]
+        if instack[u] == 1:
+            # dp[u] = dp[par[u]]+1
+            stack.pop()
+
+            for j in yo[u]:
+
+               if instack[j] == 1:
+                 ans[(u,j)] = dp[u]-dp[j]-1
+               else:
+                 ans[(u,j)] = -1
+            instack[u] = 0
+            continue
+        # la.append(u)
+
+        instack[u] = 1
+        for i in reversed(hash[u]):
+            dp[i] = dp[u]+1
+            stack.append(i)
+# def dfs(n):
+#     boo[n] = 1
+#
+#     for i in hash[n]:
+#       if not boo[i]:
+#         dp[i] = dp[n]+1
+#         dfs(i)
+#
+#         for j in yo[i]:
+#
+#             if boo[j] == 1:
+#                 ans[(i,j)] = dp[i]-dp[j]-1
+#             else:
+#                 ans[(i,j)] = -1
+#
+#
+#     boo[n] = 2
+
+
+t = int(input())
+
+for _ in range(t):
+    s = 1
+    n = int(input())
+    hash = defaultdict(list)
+    l = list(map(int,input().split()))
+
+    for i in range(n):
+        if l[i] == 0:
+            s = i+1
+        else:
+          hash[l[i]].append(i+1)
+
+    boo =[0]*(n+1)
+
+    dp = [0]*(n+1)
+    dp[s] = 1
+    instack = [0]*(n+1)
+    # par = [0]*(n+1)
+    # print(dp)
+    la = []
+    q = int(input())
+    ans = defaultdict(lambda : -1)
+    yo = defaultdict(set)
+    for i in range(q):
+        a,b = map(int,input().split())
+        la.append((a,b))
+        yo[a].add(b)
+    dfs(s)
+    # print(dp)
+    for a,b in la:
+        print(ans[(a,b)])
+
+
+
