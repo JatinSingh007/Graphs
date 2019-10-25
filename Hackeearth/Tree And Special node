@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+using namespace std;
+const int N = 1e6 + 5;
+vector<int> adj[N];
+bool vis[N];
+int arr[N];
+int fre[N];
+int ans;
+void fill()
+{
+	memset(vis,false,sizeof(vis));
+	memset(fre,0,sizeof(fre));
+	ans=0;
+}
+void dfs(int s)
+{
+	vis[s]=true;
+	
+	if(fre[arr[s]])
+	{
+		return;
+	}
+	fre[arr[s]]++;
+	ans++;
+	for(auto x: adj[s])
+	{
+		if(!vis[x])
+		{
+			dfs(x);
+		}
+	}
+	fre[arr[s]]--;
+}
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	int n;
+	cin>>n;
+	for(int i=1;i<=n;i++)
+	{
+		cin>>arr[i];
+	}
+	int u,v;
+	for(int i=1;i<n;i++)
+	{
+		cin>>u>>v;
+		adj[u].push_back(v);
+		adj[v].push_back(u);
+	}
+	fill();
+	dfs(1);
+	cout<<ans<<"\n";
+	return 0;
+}
