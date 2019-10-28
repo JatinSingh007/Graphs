@@ -1,0 +1,67 @@
+from collections import defaultdict
+from math import sqrt,factorial,gcd,log2,inf
+# map(int,input().split())
+# l = list(map(int,input().split()))
+
+
+
+def dfs1(n):
+    stack = [n]
+    while stack:
+        u = stack[-1]
+        if instack[u] == 1:
+            dp[u] = len(laa) - when[u]
+            stack.pop()
+            continue
+        laa.append(u)
+        when[u] = len(laa) - 1
+        instack[u] = 1
+        for i in reversed(hash[u]):
+            stack.append(i)
+
+
+
+
+
+def dfs(n):
+    stack = [n]
+
+    while stack:
+        n = stack.pop(0)
+        boo[n] = True
+        for i in hash[n]:
+            if not boo[i]:
+
+                ans[tuple(sorted([n,i]))] = (dp[1] - dp[i])*(dp[i])
+                stack.append(i)
+
+
+# ans[tuple(sorted([n,i]))] = (dp[1] - dp[i])*(dp[i])
+n = int(input())
+x,y = map(int,input().split())
+hash = defaultdict(list)
+ans = defaultdict(int)
+la = []
+laa = []
+for i in range(n-1):
+    a,b = map(int,input().split())
+    hash[a].append(b)
+    hash[b].append(a)
+    la.append(tuple(sorted([a,b])))
+
+dp = [0]*(n+1)
+# boo = [False]*(n+1)
+when = [0]*(n+1)
+instack = [0]*(n+1)
+dfs1(1)
+instack = [0]*(n+1)
+
+# print(dp)
+boo = [False]*(n+1)
+dfs(1)
+for a,b in la:
+    print(ans[(a,b)])
+
+
+
+
