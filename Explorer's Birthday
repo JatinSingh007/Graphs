@@ -1,0 +1,53 @@
+from collections import defaultdict
+from math import sqrt,factorial,gcd,log2,inf
+# map(int,input().split())
+# l = list(map(int,input().split()))
+mod = 10**9 + 7
+import sys
+sys.setrecursionlimit(10**9)
+ans = 0
+def dfs(n,b,c):
+    vis[n] = 1
+    sum = 0
+    global ans
+
+    ans+=dp[n]
+    ans%=mod
+
+    for i,w in hash[n]:
+        if not vis[i]:
+
+            dp[i]+=(w*b + w)%mod
+            dp[i]%=mod
+            su = dfs(i,dp[i],w)
+            sum+=su
+            sum%=mod
+            b+=su
+            b%=mod
+
+
+    return (sum*c + c)%mod
+
+
+
+
+
+
+
+
+
+n = int(input())
+hash = defaultdict(list)
+
+for i in range(n-1):
+    a,b,w = map(int,input().split())
+    hash[a].append([b,w])
+    hash[b].append([a,w])
+
+vis = [0]*(n+1)
+dp = [0]*(n+1)
+dfs(1,0,0)
+print(ans%mod)
+
+
+
