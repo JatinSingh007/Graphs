@@ -1,0 +1,55 @@
+n, m, k = [int(i) for i in input().split()]
+# graph = [[] for i in range(n + 1)]
+pq = []
+for i in range(m):
+    u, v, c = [int(j) for j in input().split()]
+    pq += [(c,u,v)]
+pq.sort(key=lambda x:x[0])
+ 
+cities = [i for i in range(n + 1)]
+ 
+def root(x):
+    while(cities[x] != x):
+        cities[x] = cities[cities[x]]
+        x = cities[x]
+    return x
+    
+def union(x, y):
+    p = root(x)
+    q = root(y)
+    cities[q] = cities[p]
+ 
+cumCost = 0
+cntOfSuperRoads = '-1'
+nonSuperRoads = []
+ 
+for i in range(m):
+    c, u, v = pq[i]
+    if root(u) != root(v):
+        union(u, v)
+        nonSuperRoads += [c]
+        cumCost += c
+ 
+    if len(nonSuperRoads) == n -1:
+        break;
+        
+nonSuperRoads.reverse()
+ 
+if len(nonSuperRoads) == n - 1:
+    for i in range(len(nonSuperRoads)):
+        if cumCost > k:
+            cumCost -= nonSuperRoads[i] - 1
+        else:
+            cntOfSuperRoads = str(i)
+            break
+            
+    if cntOfSuperRoads == '-1' and cumCost <= k:
+        cntOfSuperRoads = str(len(nonSuperRoads))
+    
+print(cntOfSuperRoads)
+            
+ 
+ 
+ 
+ 
+ 
