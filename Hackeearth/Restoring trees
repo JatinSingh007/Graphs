@@ -1,0 +1,47 @@
+from collections import defaultdict
+from math import sqrt,factorial,gcd,log2,inf
+# map(int,input().split())
+# l = list(map(int,input().split()))
+mod = 10**9 + 7
+import sys
+sys.setrecursionlimit(10**9)
+
+n = int(input())
+
+l1 = list(map(int,input().split()))
+
+l2 = list(map(int,input().split()))
+fin = defaultdict(int)
+stack = []
+st = defaultdict(lambda : -1)
+
+for i in range(n):
+    fin[i+1] = l2[i]
+    st[l1[i]] =  i+1
+ti = 0
+
+par = defaultdict(lambda : 0)
+# print(fin)
+while True:
+
+    if stack!=[]:
+
+
+
+        while fin[stack[-1]] == ti:
+            z = stack.pop()
+            if len(stack)!=0:
+              par[z] = stack[-1]
+            else:
+                break
+        if stack == []:
+            break
+    if st[ti]!=-1:
+      stack.append(st[ti])
+      ti+=1
+
+ans = []
+for i in range(n):
+    ans.append(par[i+1])
+print(*ans)
+
