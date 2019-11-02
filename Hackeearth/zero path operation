@@ -1,0 +1,25 @@
+from collections import defaultdict
+from math import sqrt,factorial,gcd,log2,inf
+# map(int,input().split())
+# l = list(map(int,input().split()))
+mod = 10**9 + 7
+import sys
+sys.setrecursionlimit(10**9)
+
+t = int(input())
+
+for _ in range(t):
+    n = int(input())
+    hash = defaultdict(list)
+    # l = list(map(int,input().split()))
+    for i in range(n-1):
+        a,b = map(int,input().split())
+        hash[a].append(b)
+        hash[b].append(a)
+    l = list(map(int,input().split()))
+    ans = 0
+    for i in hash:
+        if len(hash[i])>1 and l[i-1]!=0:
+            ans+=1
+    print(ans)
+
