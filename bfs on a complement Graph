@@ -1,0 +1,24 @@
+def bfs_complement(n):
+    seti = {i+1 for i in range(1,n)}
+    # print(seti)
+    vis = [1]
+    while vis:
+        i = vis.pop(0)
+        ka = []
+        for j in seti:
+            if j not in hash[i] and i!=j:
+                vis.append(j)
+                ka.append(j)
+        for x in ka:
+            seti.remove(x)
+
+
+
+
+    # print(vis)
+
+    if seti == set():
+        return 'yes'
+    else:
+        return 'no'
+
