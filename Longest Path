@@ -1,0 +1,56 @@
+# from sys import stdin
+# def rl():
+#     return [int(w) for w in stdin.readline().split()]
+from collections import defaultdict
+# from math import sqrt,factorial,gcd,log2,inf,ceil
+# map(int,input().split())
+# l = list(map(int,input().split()))
+ans = 1
+import sys
+sys.setrecursionlimit(10**9)
+def dfs(n):
+    global ans
+
+    boo[n] = True
+    if l[n-1]%k == 0:
+        dp[n][0]+=1
+        dp[n][1]+=1
+    maxi1 = 0
+    maxi2 = 0
+    for i in hash[n]:
+        if not boo[i]:
+
+            dfs(i)
+            if l[n-1]%k == 0 and l[i-1]%k == 0:
+                if dp[i][1]>=maxi1:
+                    maxi2 = maxi1
+                    maxi1 = dp[i][1]
+                else:
+                    if dp[i][1]>=maxi2:
+                        maxi2 = dp[i][1]
+
+
+    if l[n-1]%k == 0:
+        dp[n][1]+=max(maxi1,maxi2)
+        dp[n][0]+=maxi1+maxi2
+        ans = max(ans,dp[n][0])
+
+
+
+
+hash = defaultdict(list)
+n,k = map(int,raw_input().split())
+
+l = list(map(raw_input().split()))
+
+for i in range(n-1):
+    a,b = map(int,input().split())
+    hash[a].append(b)
+    hash[b].append(a)
+
+boo = defaultdict(bool)
+dp = defaultdict(lambda : [0,0])
+dfs(1)
+
+print(ans-1)
+
