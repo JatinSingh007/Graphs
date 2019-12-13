@@ -1,0 +1,92 @@
+from sys import stdin
+from collections import deque
+# def rl():
+#     return [int(w) for w in stdin.readline().split()]
+from bisect import bisect_right
+from bisect import bisect_left
+from collections import defaultdict
+from math import sqrt,factorial,gcd,log2,inf,ceil
+# map(int,input().split())
+# # l = list(map(int,input().split()))
+# from itertools import permutations
+
+# t = int(input())
+
+
+import heapq
+
+
+def dijsk(n):
+
+    t = 0
+    distances[0] = 0
+    hea = [[0,n]]
+
+    while len(hea)>0:
+        # print(hea,distances)
+        a,b = heapq.heappop(hea)
+
+        if bool[b]:
+            continue
+
+        bool[b] = True
+
+        for c,w,flag in hash[b]:
+
+
+          if flag == 0:
+
+             if distances[b]%2 == 0:
+                 distances[c] = min(distances[c],distances[b]+w)
+
+                 heapq.heappush(hea,[distances[c],c])
+             else:
+                 distances[c] = min(distances[c],distances[b]+w+1)
+                 heapq.heappush(hea,[distances[c],c])
+
+          else:
+              # if c == 4:
+              #     print(distances[b])
+              if distances[b]%2 != 0:
+                 distances[c] = min(distances[c],distances[b]+w)
+                 heapq.heappush(hea,[distances[c],c])
+              else:
+                 distances[c] = min(distances[c],distances[b]+w+1)
+                 heapq.heappush(hea,[distances[c],c])
+
+
+
+
+
+n,e,q = map(int,input().split())
+
+la = []
+
+hash = defaultdict(list)
+
+
+for i in range(e):
+    a,b = map(int,input().split())
+    hash[a].append([b,1,0])
+    hash[b].append([a,1,1])
+    # hash1[a].append([b,1])
+    # hash1[b].append([a,1])
+
+
+
+
+bool = [False]*(n+1)
+
+distances = [10**18]*(n+1)
+distances[1] = 0
+dijsk(1)
+
+z = distances[n]
+# print(z)
+for i in range(q):
+    t = int(input())
+    if z<=t:
+        print('GGMU')
+    else:
+        print('FML')
+
