@@ -1,0 +1,56 @@
+import sys
+from collections import deque
+ 
+def minDist(dist, visited, N):
+    min_dist = sys.maxsize
+    min_dist_i = 1
+    for i in range(1, N+1):
+        if visited[i] is False and dist[i] < min_dist:
+            min_dist = dist[i]
+            min_dist_i = i
+    return min_dist_i
+ 
+def solve(graph, parent, S, D, T, N):
+    visited = list([False]) * (N+1)
+    dist = list([sys.maxsize]) * (N+1)
+    dq = deque()
+    dq.append(S)
+    visited[s] = True    
+    while dq:
+        u = dq.popleft()
+        for v in range(N+1):
+            if graph[u][v] is not None:
+                mm = min(dist[u], graph[u][v])
+                if dist[v] != sys.maxsize:
+                    if mm > dist[v]:
+                        parent[v] = u
+                        dist[v] = mm
+                elif dist[v] == sys.maxsize:
+                    parent[v] = u
+                    dist[v] = mm
+                # print(parent)
+                dq.append(v)
+        # print(dist)
+                
+    return dist
+ 
+data = input()
+N, R = list(map(int, data.split()))
+graph = [[None for j in range(N+1)] for i in range(N+1)]
+for _ in range(R):
+    data = input()
+    s, d, w = list(map(int, data.split()))
+    graph[s][d] = w
+data = input()
+S, D, T = list(map(int, data.split()))
+parent = list([-1]) * (N+1)
+dist = solve(graph, parent, S, D, T, N)
+pp = D
+path = list()
+while pp != -1:
+    path.append(str(pp))
+    pp = parent[pp]
+print(" ".join(path[-1::-1]))
+# print(T, dist[D] - 1)
+mod = 1 if T % (dist[D]-1) else 0
+print(mod + T//(dist[D]-1))
