@@ -1,0 +1,74 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define rep(i,a,b) for(int i=(a);i<=(b);i++)
+#define ll long long
+#define pll pair<ll, ll>
+#define pii pair<int,int>
+#define pb push_back
+#define F first
+#define S second
+#define mod 1000000007
+#define maxn 1000005
+#define boost ios::sync_with_stdio(false);cin.tie(0)
+#define fr freopen("source.txt","r",stdin),freopen("output.txt","w",stdout)
+#define SET(a,b) memset(a,b,sizeof(a))
+vector<int>g[maxn],e,o;
+int vis[maxn],deg[maxn],comp,odd[maxn];
+void dfs(int v){
+	vis[v]=1;
+	if(deg[v]%2==1)odd[comp]++;
+	for(int u:g[v]){
+		if(vis[u]==0){
+			dfs(u);
+		}
+	}
+}
+int main(){
+	boost;
+	
+	int t;
+	cin>>t;
+	while(t--){
+		e.clear();
+		o.clear();
+		comp=0;
+		int n,m;
+		cin>>n>>m;
+		rep(i,1,n){
+			g[i].clear();
+			vis[i]=deg[i]=0;
+			odd[i]=0;
+		}
+		rep(i,1,m){
+			int u,v;
+			cin>>u>>v;
+			g[u].pb(v);
+			g[v].pb(u);
+			deg[u]++;
+			deg[v]++;
+		}
+		int ans=0;
+		rep(i,1,n){
+			if(vis[i]==0){
+				comp++;
+				dfs(i);
+				if(odd[comp]==0)e.pb(comp);
+				else o.pb(comp);
+			}
+		}
+		if(o.size()==0&&e.size()==1){
+			cout<<"0"<<endl;
+			continue;
+		}
+		if(o.size()==0){
+			cout<<e.size()<<endl;
+			continue;
+		}
+		if(e.size()!=0)ans+=e.size();
+		for(int i:o){
+			ans+=odd[i]/2;
+		}
+		cout<<ans<<endl;
+	}	
+	return 0;
+}
