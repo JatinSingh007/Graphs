@@ -1,0 +1,73 @@
+from sys import stdin
+from collections import deque
+mod = 10**9 + 7
+# def rl():
+#     return [int(w) for w in stdin.readline().split()]
+from bisect import bisect_right
+from bisect import bisect_left
+from collections import defaultdict
+from math import sqrt,factorial,gcd,log2,inf,ceil
+# map(int,input().split())
+# # l = list(map(int,input().split()))
+# from itertools import permutations
+import heapq
+
+
+
+def dijsk(n,hash,no):
+
+
+    distances = [inf]*(no+1)
+    hea = [[0,n]]
+    boo = defaultdict(bool)
+    distances[n] = 0
+
+    while len(hea)>0:
+
+        a,b = heapq.heappop(hea)
+
+        if boo[b]:
+            continue
+
+        boo[b] = True
+
+        for c,w in hash[b]:
+
+                 distances[c] = min(distances[c],distances[b]+w)
+
+                 heapq.heappush(hea,[distances[c],c])
+
+    return distances
+
+
+
+n,m,s,t = map(int,input().split())
+
+hash = defaultdict(list)
+hash_rev = defaultdict(list)
+
+for i in range(m):
+
+    a,b,w = map(int,input().split())
+    hash[a].append([b,w])
+    hash_rev[b].append([a,w])
+
+
+k1 = dijsk(s,hash,n)
+k2 = dijsk(s,hash_rev,n)
+k3 = dijsk(t,hash,n)
+k4 = dijsk(t,hash_rev,n)
+
+ans = inf
+for i in range(1,n+1):
+
+    if i == s or i == t:
+        continue
+    z = k1[i] + k2[i] + k3[i] + k4[i]
+
+    ans = min(ans,z)
+
+if ans == inf:
+    print(-1)
+    exit()
+print(ans)
